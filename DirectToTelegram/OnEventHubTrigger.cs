@@ -15,7 +15,7 @@ namespace DirectToTelegram
         [FunctionName("OnEventHubTrigger")]
         public static async Task Run(
             [EventHubTrigger("build-iot-button", Connection = "EventHubsConnection")] string eventHubMessage,
-            [Blob(BlobPath, FileAccess.Write)] Stream deviceMessage,
+            [Blob(BlobPath, FileAccess.Write)] Stream blobStream,
             TraceWriter log)
         {
             var messageWrapper = BuildTextMessage(source: "EventHubTrigger");
@@ -23,7 +23,7 @@ namespace DirectToTelegram
 
             log.Info(await LogTelegramResponseMessage(messageResult));
             log.Info($"C# Event Hub trigger function processed a message: {eventHubMessage}");
-            GenerateStreamFromString(eventHubMessage, deviceMessage);
+            WriteDeviceMessageIntoStream(eventHubMessage, blobStream);
         }
     }
 }

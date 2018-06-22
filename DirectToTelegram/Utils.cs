@@ -40,7 +40,7 @@ namespace DirectToTelegram
         public static async Task<string> LogTelegramResponseMessage(HttpResponseMessage messageResult)
             => $"Message result: {await messageResult.Content.ReadAsStringAsync()}";
 
-        public static void GenerateStreamFromString(string source, Stream outStream)
+        public static void WriteDeviceMessageIntoStream(string source, Stream outStream)
         {
             var writer = new StreamWriter(outStream);
             writer.Write(source);
