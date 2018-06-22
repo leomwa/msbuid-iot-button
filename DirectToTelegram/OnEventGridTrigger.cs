@@ -18,8 +18,8 @@ namespace DirectToTelegram
             var messageWrapper = BuildTextMessage(source: "EventGridTrigger");
             var messageResult = await HttpClient.PostAsync(BuildTelegramBotUrl("sendMessage"), BuildMessageToSend(messageWrapper));
 
+            log.Info(await LogTelegramResponseMessage(messageResult));
             log.Info(eventGridEvent.Data.ToString());
-            log.Info($"Message result: {messageResult}");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace DirectToTelegram
@@ -34,6 +35,9 @@ namespace DirectToTelegram
 
         public static StringContent BuildMessageToSend(object message)
             => new StringContent(JsonConvert.SerializeObject(message), Encoding.UTF8, "application/json");
+
+        public static async Task<string> LogTelegramResponseMessage(HttpResponseMessage messageResult)
+            => $"Message result: {await messageResult.Content.ReadAsStringAsync()}";
 
         private static string GetEnvironmentVariable(string key) => Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
     }

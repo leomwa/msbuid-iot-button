@@ -1,25 +1,24 @@
-﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Azure.WebJobs.ServiceBus;
 using static DirectToTelegram.Utils;
 
 namespace DirectToTelegram
 {
-    public static class OnBlobTrigger
+    public static class OnEventHubTrigger
     {
-        [FunctionName("OnBlobTrigger")]
+        [FunctionName("OnEventHubTrigger")]
         public static async Task Run(
-            [BlobTrigger("build-button-messages/{name}", Connection = "AzureWebJobsStorage")]
-            Stream myBlob,
-            string name,
+            [EventHubTrigger("build-iot-button", Connection = "EventHubsConnection")]
+            string myEventHubMessage,
             TraceWriter log)
         {
-            var messageWrapper = BuildTextMessage(source: "BlobTrigger");
+            var messageWrapper = BuildTextMessage(source: "EventHubTrigger");
             var messageResult = await HttpClient.PostAsync(BuildTelegramBotUrl("sendMessage"), BuildMessageToSend(messageWrapper));
 
             log.Info(await LogTelegramResponseMessage(messageResult));
-            log.Info($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {myBlob.Length} Bytes");
+            log.Info($"C# Event Hub trigger function processed a message: {myEventHubMessage}");
         }
     }
 }
