@@ -12,7 +12,8 @@ namespace DirectToTelegram
 {
     public static class OnEventGridTrigger
     {
-        [FunctionName("OnEventGridTrigger")]
+        // [FunctionName("OnEventGridTrigger")]
+        // Disabled blob trigger, and consequently this trigger as it relied on PutBlob events
         public static async Task Run([EventGridTrigger] EventGridEvent eventGridEvent, TraceWriter log)
         {
             var messageWrapper = BuildTextMessage(source: "EventGridTrigger");

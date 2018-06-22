@@ -8,7 +8,8 @@ namespace DirectToTelegram
 {
     public static class OnBlobTrigger
     {
-        [FunctionName("OnBlobTrigger")]
+        //[FunctionName("OnBlobTrigger")]
+        // Due to cold start, a blob trigger is just too painful. Solved in EventHub trigger.
         public static async Task Run(
             [BlobTrigger("build-button-messages/{name}", Connection = "AzureWebJobsStorage")]
             Stream myBlob,
